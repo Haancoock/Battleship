@@ -50,3 +50,40 @@ button{
     color: rgb(255, 128, 0);
 }
 
+/*Основные стили для цифр и букв над полями боя*/
+.aroundField{
+    display: inline-block;
+    position: absolute;
+    display: block;
+}
+
+/*Стили для обертки полей боя*/
+.battlefields{
+    display: block;
+    margin-left: 25px;
+}
+
+/*Стили для названия над полями боя*/
+.field-name{
+    position:relative;
+    top: -40px;
+    display: block;
+    height: 21px;
+    font-family: 'Press Start 2P', cursive;
+}
+
+/*Общие стили для каждого поля боя*/
+.battlefield{
+    margin-left: 20px;
+    position: relative;
+    float: left;
+    display: inline-block;
+    width: 390px;
+    height: 390px;
+}
+
+/*Стили для поля боя игрока*/
+
+.battlefield__player{
+    margin-left: 20px;
+}

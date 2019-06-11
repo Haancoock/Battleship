@@ -1,0 +1,25 @@
+* {
+    box-sizing: border-box;
+    margin:0;
+    padding: 0;
+}
+/*Основные стили игры*/
+body {
+  	text-align:center;
+    background-color: #55354C;
+    color: #FCFAEA;
+    margin:0;
+    padding: 0;
+}
+/*Сброс стиля "display:none;" от модернайзера для тега select */
+select{
+	display: block;
+}
+
+/*Стили для всех кнопок в игре*/
+button{
+	width: 100%;
+	margin-bottom: 10px;
+	background-color: #FD8200 !important;
+    font-family: 'Press Start 2P', cursive;
+}

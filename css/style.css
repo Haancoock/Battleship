@@ -23,3 +23,30 @@ button{
 	background-color: #FD8200 !important;
     font-family: 'Press Start 2P', cursive;
 }
+
+/*Стили для основной обертки игры*/
+.main-battleship {
+    width: 1200px;
+    margin:0 auto;
+}
+
+/*Стили для тега с названием игры*/ 
+.gamename {
+    font-family: 'Pirata One', cursive;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+/*Стили для информационной панели*/
+.infobar {
+    margin-bottom: 110px;
+}
+
+/*Стили(анимация мерцания) для блока с выводом информации. keyframes ниже*/
+.infobar-text{
+    font-family: 'Press Start 2P', cursive;
+    animation: blink 3s linear infinite;
+    color: rgb(255, 128, 0);
+}
+

@@ -341,10 +341,63 @@ var Module = (function(){
  		}
  		return positions;
 	}
+	// Стандартная функция получения рандомного числа от min до max с использованием Math.floor()
+	var _randomInteger = (min, max) => {
+ 		var rand = min + Math.random() * (max + 1 - min);
+    	rand = Math.floor(rand);
+    	return rand;
+ 	}
+	// Создание обоих полей боя и дивов для блокирования кликов по полям
+	var _createFields = () => {
+		// Запускается цикл по каждой обертке поля боя(всего 2)
+	 	for (var n = 0; n < fields.length; n++){
+	 		var fieldItem = fields[n]; //Присваивает поле боя переменной что бы было наглядней
+	 		_createField(fieldItem); // Запускает функцию и передает в параметр обертку поля боя для создания ячеек 
+	 		_clickBlocker(fieldItem); // Запускает функцию создания блокираторов
+	 	}
+	}
+	// Создает дивы в каждом поле боя блокирующие нажатие по полю во время хода противника и т.д
+	var _clickBlocker = (fieldItem) =>{
+		var filedId = fieldItem.id;
+		$(fieldItem).append(`<div class="clickBlockers" id="${filedId}Blocker"></div>`);
+	}
 
+	// Функция отвечающая за создание одного поля 
+	var _createField = (fieldItem) => {
+	 	$(fieldItem).empty(); // Очищает игровое поле перед созданием нового
+	 	for(var i = 0; i <100; i++){ // Запускается цикл для создания ячеек в обертке поля боя
+	 		$(fieldItem).append(`<span class="cell" id="cell${i}" ></span>`); // Создает ячейку
+	 	}
+	}
+	//Функция отвечает за вывод букв и цифр по краям поля боя
+	var _createAroundText = () =>{
+		var letters = ['А','Б','В','Г','Д','Е','Ж','З','И','К'],// массив из букв
+			numbers = ['1','2','3','4','5','6','7','8','9','10'], //массив из цифр
+			lettersBlock = document.querySelectorAll('.letters'),//блок-обертка в который помещаются буквы
+			numbersBlock = document.querySelectorAll('.numbers'); // блок-обертка в который помещаются цифры
 
+			for( var n = 0; n < 2; n++){ // цикл проходит 2 раза что бы перебрать получившийся NodeList 
+			 // от querySelectorAll и получить блок-обертку букв/цифр
+				for( var i = 0; i < 10; i++){ // цикл проходит 10 раз для каждого элемента массивов letters/numbers
+					$(lettersBlock[n]).append('<span>'+letters[i]+'</span>');//добавляет span со значением в letters
+					$(numbersBlock[n]).append('<span>'+numbers[i]+'</span>');//добавляет span со значением в numbers
+				}
+			}
+	}
 
-
+	//Функция отслеживает изменения имени игрока в поле инпут и добавляет новое имя над полем игрока и в инф.панель
+	var _changePlayerName = function(e){
+	 	var text = this.value, // Присвоение переменной text текущее значение в инпуте
+	 		playerFieldName = document.getElementById('player-field-name'); // Место куда нужно выводить имя
+	 	playerFieldName.textContent = ` ${text}`; // Добавление текста из инпута над полем боя игрока
+	 	infoBar.textContent = `Добро пожаловать в игру, ${text}! Выбери сложность и жми "Играть"...`; //Текс в инфобар
+	 	
+	 	if(text == ''){ // Что бы название поля боя не было пустым, добавляется проверка
+	 		playerFieldName.textContent = 'Поле игрока';// Если название пустое, назначается дефолтное название 
+	 		infoBar.textContent = 'Не можешь определиться с именем? :)'; // На случай если имя пустует :)
+	 	}
+	}
+	
 	return {
 		gameStart: gameStart
 	}

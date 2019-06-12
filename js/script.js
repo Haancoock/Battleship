@@ -221,12 +221,12 @@ var Module = (function(){
 		for (var i=0; i<100; i++){
 			// Если на поле боя компьютера есть ячейки с классом отвечающим за попадание
 			// то игроку засчитываются очки 
-			if($('#compField #cell'+i).hasClass('fireColor')){
+			if($('#compField #cell'+i).hasClass('shotHit')){
 				player++;
 				console.log(player);
 			}
 			// аналогично только для компьютера
-			if($('#playerField #cell'+i).hasClass('fireColor')){
+			if($('#playerField #cell'+i).hasClass('shotHit')){
 				comp++;
 				console.log(comp);
 			}
@@ -294,7 +294,7 @@ var Module = (function(){
 			var cell = $(fieldId+' #cell'+aroundDeck[i]); // Записываем в переменную ячейку которую надо пометить
 
 			//Условие которое проверяет имеет ли ячейка класс корабля
-			if(cell.hasClass('shipColor')){
+			if(cell.hasClass('shipTag')){
 				//если да, то ничего не делать
 			}else{
 				//если нет, то перезаписать все классы ячейки(на случай перезапуска игры) и пометить ячейку

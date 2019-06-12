@@ -1,0 +1,259 @@
+* {
+    box-sizing: border-box;
+    margin:0;
+    padding: 0;
+}
+/*Основные стили игры*/
+body {
+  	text-align:center;
+    background-color: #55354C;
+    color: #FCFAEA;
+    margin:0;
+    padding: 0;
+}
+/*Сброс стиля "display:none;" от модернайзера для тега select */
+select{
+	display: block;
+}
+
+/*Стили для всех кнопок в игре*/
+button{
+	width: 100%;
+	margin-bottom: 10px;
+	background-color: #FD8200 !important;
+    font-family: 'Press Start 2P', cursive;
+}
+
+/*Стили для основной обертки игры*/
+.main-battleship {
+    width: 1200px;
+    margin:0 auto;
+}
+
+/*Стили для тега с названием игры*/ 
+.gamename {
+    font-family: 'Pirata One', cursive;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+/*Стили для информационной панели*/
+.infobar {
+    margin-bottom: 110px;
+}
+
+/*Стили(анимация мерцания) для блока с выводом информации. keyframes ниже*/
+.infobar-text{
+    font-family: 'Press Start 2P', cursive;
+    animation: blink 3s linear infinite;
+    color: rgb(255, 128, 0);
+}
+
+/*Основные стили для цифр и букв над полями боя*/
+.aroundField{
+    display: inline-block;
+    position: absolute;
+    display: block;
+}
+
+/*Стили для обертки полей боя*/
+.battlefields{
+    display: block;
+    margin-left: 25px;
+}
+
+/*Стили для названия над полями боя*/
+.field-name{
+    position:relative;
+    top: -40px;
+    display: block;
+    height: 21px;
+    font-family: 'Press Start 2P', cursive;
+}
+
+/*Общие стили для каждого поля боя*/
+.battlefield{
+    margin-left: 20px;
+    position: relative;
+    float: left;
+    display: inline-block;
+    width: 390px;
+    height: 390px;
+}
+
+/*Стили для поля боя игрока*/
+
+.battlefield__player{
+    margin-left: 20px;
+}
+
+/*Стили для панели управления игры*/
+.settings{
+    float: left;
+    width: 200px;
+    margin-left: 45px;
+    margin-right: 55px;
+}
+
+/*Стили для текста "Введите имя"*/
+.name-title{
+    font-family: 'Press Start 2P', cursive;
+}
+
+/*Стили для инпута с вводом имени*/
+.name-input{
+    margin-bottom: 10px;
+    color: #FFFBE2;
+}
+
+/*Стили для текста "Лидеры"*/
+.scoreboard-title{
+    font-family: 'Press Start 2P', cursive;
+}
+
+/*Стили для цифр слева от поля боя*/
+.numbers{
+    width: 39px;
+    left: -32px;
+    top:30px;
+}
+/*Стили для букв над полем боя*/
+.letters{
+    width: 390px;
+    height: 39px;
+    top: -4px;
+}
+
+/*Стили для каждой буквы/цифры которая генерируется посредством js*/
+.aroundField span {
+    width: 39px;
+    height: 39px;
+    display: block;
+    position: relative;
+    float: left;
+}
+
+/*Стили для кажой ячейки генерируемой посредством js */
+.cell {
+    width:39px;
+    height:39px;
+    cursor: pointer;
+    display: inline-block;
+    border-right: 1px solid #EDC02D;
+    border-bottom: 1px solid #EDC02D;
+    float: left;
+    overflow: hidden;
+}
+
+/*Стили для отображения бордеров у ячеек по левому и верхнему краям поля боя */
+.cell:nth-child(10n + 1){ /*берем первый и каждый следущий 1+ 10 элемент (11..21..)*/
+    border-left: 1px solid #EDC02D; /*и добавляем ему бордед слева*/
+}
+
+.cell:not(:nth-child(1n + 11)){ /*выбираем первые 10 элементов игнорируя все остальные*/
+    border-top: 1px solid #EDC02D; /*и добавляем им бордер сверху*/
+}
+
+/*Стили для ячейки при наведении на неё*/
+.cell:hover {
+    opacity:0.5;
+}
+/*Стили для блокировки нажатий и эффекта затемнения поля*/
+.clickBlockers {
+    display: block;
+    width: 390px;
+    height: 390px;
+    background: #000;
+    position: relative;
+    opacity: 0.1;
+}
+
+/*Блокиратор кликов по полю противника будет отображаться только средствами js во время каких-либо событий */
+#compFieldBlocker{
+    display: none;
+}
+/*Класс для "воды"*/
+.water{
+	background-color: transparent;
+}
+/*Стили для класса который отвечает за выстрел-промах*/
+.shotMiss{
+	position: relative;
+}
+/*Отрисовка промаха-точки на поле боя*/
+.shotMiss:after{
+	overflow: hidden;
+	content: '';
+	display: block;
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 10px;
+    width: 10px;
+    background: #FD8200;
+    border-radius: 50%;
+    margin-top: -5px;
+    margin-left: -5px;;
+}
+
+/*Стили отвечающие за  попадание*/
+.shotHit {
+	background-color: transparent;
+	position: relative;
+}
+
+/*Отрисовка красного крестика попадания по кораблю*/
+.shotHit:after{
+	overflow: hidden;
+	top: 50%;
+    height: 2px;
+    left: -25%;
+    width: 150%;
+    margin-left: -1px;
+    content: "";
+    position: absolute;
+    z-index: -1;
+    background: red;
+    transform: rotate(-45deg);
+}
+/*Отрисовка красного крестика попадания по кораблю*/
+.shotHit::before{
+	box-sizing: border-box; 
+	left: 50%;
+    width: 2px;
+    top: -25%;
+    height: 150%;
+    margin-top: 1px;
+    content: "";
+    position: absolute;
+    z-index: -1;
+    background: red;
+    transform: rotate(-45deg);
+}
+
+/*Стиль отвечающий за отрисовку корабля*/
+.shipTag {
+	background-color: blue;
+}
+/*блок для блокировки нажатий и эффекта затемнения поля*/
+.clickBlockers {
+	display: block;
+	width: 390px;
+	height: 390px;
+	background: #000;
+	position: relative;
+	opacity: 0.1;
+}
+/*Отвечает за мерцание информ панели*/
+@keyframes blink {
+  0% { color: rgba(255, 128, 0, 1); }
+  50% { color: rgba(255, 128, 0, 0); }
+  100% { color: rgba(255, 128, 0, 1); }
+}
+/*Хак против схлопывания*/
+.clearfix::after{
+	content: " ";
+  	display: block;
+  	clear: both;
+}

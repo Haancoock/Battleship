@@ -252,7 +252,98 @@ var Module = (function(){
 			$('#compFieldBlocker').show();	
 		}
 	};
-	
+	// Функция создает и размещает корабли на полях боя
+	var _createShips = () =>{
+		var shipLength = 4; // Переменная с максимальной длинной корабля(нужно для цикла)
+		for(shipLength; shipLength >= 1; shipLength--){ //Цикл для перебора кораблей от 4 до 1 палубных
+			// Цикл для обработки текущего корабля, т.е цикл пройдет (5-числоПалуб) итераций
+			// Если к примеру число палуб 4, то цикл пройдет 1 итерацию, для создания одного корабля
+			// Если 2 палубы, то цикл пройдет 3 итерации, создав 3 корабля по 2 палубы, по правилам игры
+			for(var count = (5- shipLength); count>= 1; count--){
+				// В переменную записывает возвращаемый функцией массив из координат корабля игрока
+				var arrPlayerShipPosition = _getShipPosition(shipLength, playerFieldId);
+				// В переменную записывает возвращаемый функцией массив из координат корабля компьютера
+				var arrCompShipPosition = _getShipPosition(shipLength, compFieldId);
+				// Цикл вызывает функцию для размещения каждой палубы отдельно, для обоих полей
+				for(var deck = 0; deck < arrPlayerShipPosition.length; deck++){ //пока текущая палуба меньше кол-ва палуб корабля
+					//Вызвать функции размещения палубы передавая в качестве аргумента айди поля 
+					// и по одной координате из полученного массива координат
+					_createShipDeck(arrPlayerShipPosition[deck], playerFieldId);
+					_createShipDeck(arrCompShipPosition[deck], compFieldId);
+				}
+			}
+		}
+	}
+	// Функция для создания палубы(одной за раз) на поле боя который передается как аргумент 
+	var _createShipDeck = (deckPosition, fieldId) => {
+		//Переменная содержит в себе массив ячеек, которые будут помечены как занятые
+		//что бы не допустить размещение палуб других кораблей по соседству
+		// функция _getShipPosition() будет проверять данные ячейки на "занятость" 
+		var aroundDeck = [deckPosition-1,deckPosition-10,deckPosition+10,deckPosition-1-10,deckPosition-1+10,deckPosition+1,deckPosition+1-10,deckPosition+1+10],
+			aroundDeckLength; // Переменная нужна для присваивания в неё длинны массива ячеек, что бы было удобней работать
+		// Условие проверяет, является ли текущая позиция палубы прибитой к правому краю
+		if(Math.floor(deckPosition%10)<9){ // если остаток деления меньше девяти
+			aroundDeckLength = aroundDeck.length; // всё нормально и можно помечать все ячейки вокруг как занятые
+		}else{ // если нет, т.е позиция палубы находится у правого края
+			// передаем длинну массива не учивывать 3 последних элемента, которые отвечают за пометку позиции справа
+			aroundDeckLength = aroundDeck.length-3;
+		}
+
+		//Цикл перебирает массив c получившейся длиной на основе позиции палубы и присваивает классы занятым ячейкам
+		for(i = 0; i< aroundDeckLength; i++){
+			var cell = $(fieldId+' #cell'+aroundDeck[i]); // Записываем в переменную ячейку которую надо пометить
+
+			//Условие которое проверяет имеет ли ячейка класс корабля
+			if(cell.hasClass('shipColor')){
+				//если да, то ничего не делать
+			}else{
+				//если нет, то перезаписать все классы ячейки(на случай перезапуска игры) и пометить ячейку
+				//как занятую
+				cell.removeClass('shipTag water shotMiss shotHit').addClass('water');
+			}
+		}
+		// Перезаписываем ячейку, удаляя все предыдущие классы и помечаем её как палубу корабля
+		$(fieldId+' #cell'+deckPosition).removeClass('shipTag water shotMiss shotHit').addClass('shipTag');
+		// Добавляем системный класс корабля
+		$(fieldId+' #cell'+deckPosition).addClass('ship');
+	}
+	// Функция принимает в аргумент количество палуб и айди поля куда нужно добавлять корабль
+	//Возвращает массив с координатами корабля
+	var _getShipPosition = (decks, fieldId) =>{
+		var positions = [], // Массив позиций корабля
+ 			direction = _randomInteger(0, 1); // Рандомно определяет направление корабля из 2х сторон(вверх вправо)
+ 		positions[0] = _randomInteger(0, 99); // Рандомно устанавливает первую позицию корабля
+
+ 		// Условия для каждого направления
+ 		if(direction){ // если направление вправо
+ 			if(positions[0]%10 > (10 - decks)){ // если первая позиция слишком близко к правому краю и корабль не помещается 
+ 				positions[0] = Math.floor(positions[0]/10) * 10 + (10- decks);  // задать новую позицию учитывая длинну корабля
+ 			}
+ 			// Добавляет палубы к первой позиции вправо
+ 			for(i = 1; i < decks; i++){
+ 				positions[i] = positions[i-1] + 1;
+ 			}
+ 		}
+ 		if(direction == 0){ // если направление вверх 
+ 			if(positions[0] > (decks * 10 - 1)){ // если первая позиция слишком близко к верхнему краю и корабль не помещается 
+ 				positions[0] = (decks* 10 - 1) + Math.round(positions[0]%10); // Задать новую  позицию 
+ 			}
+ 			// Добавляет палубы к первой позиции вверх
+ 			for(i = 1; i < decks; i++ ){
+ 				positions[i] = positions[i - 1] + 10;
+ 			}
+ 		}
+ 		// Проверяет что бы позиции разных кораблей не совпадали и в случае совпадения запускает скрипт по новой
+ 		for(i = 0; i < decks; i++){
+ 			if($(fieldId+' #cell'+positions[i]).hasClass('shipTag')|| $(fieldId+' #cell'+positions[i]).hasClass('water')){
+ 				return _getShipPosition(decks, fieldId);
+ 			}
+ 		}
+ 		return positions;
+	}
+
+
+
 
 	return {
 		gameStart: gameStart

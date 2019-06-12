@@ -7,7 +7,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 	<link rel="stylesheet" href="css/style.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
 </head>
 <body>
 	<!-- Главная обертка для игры -->
@@ -17,7 +17,7 @@
 			<!-- Название игры -->
 				<h1 class="gamename">Battleship</h1>
 				<!--Поле где будет выводиться информация -->
-				<span class="infobar-text">Для начала битвы введите Ваше имя, выберите сложность и нажмите "Играть"...</span>
+				<span class="infobar-text">Для начала битвы введи Свое имя, выбери сложность и нажми "Играть"...</span>
 		</header>
 		<!-- Контейнер для полей боя -->
 		<div class="clearfix battlefields">
@@ -28,7 +28,7 @@
 				<!-- Блок для вывода верхних букв над полем игрока -->
 				<div class="aroundField letters" id="playerLetters"></div>
 				<!-- Блок для создания поля боя Игрока -->
-				<div class="clearfix" id="playerField">
+				<div class="clearfix battlefield-grid" id="playerField">
 					<!--Блок для блокировки кликов по полю если игра не начата -->
 					<div class="clickBlockers" id="playerFieldBlocker"></div>
 				</div>
@@ -38,26 +38,24 @@
 			<!-- Блок с панелью управления и настройками для игры  -->
 			<div class="settings">
 				<!-- Надпись над инпутом ввода имени -->
-				<div class="name-title">Введите имя:</div>
+				<div class="name-title">Введи имя:</div>
 				<!-- Инпут для ввода имени -->
 				<input class="name-input" type="text" placeholder="Тони Старк">
 				<!-- Блок с выбором сложности компьютера -->
 				<div class="input-field" id="level">
+					<div class="name-title">Выбери сложность:</div>
 					<select name="level">
-						<option disabled selected value="easy">Выберите сложность</option>
-						<option value="1">Легко</option>
-						<option value="2">Нормально</option>
-						<option value="3">Сложно</option>
-						<option value="4">Танос</option>
-						<option value="5">2 Таносa</option>
+						<option value="2">Легко</option>
+						<option value="1">Нормально</option>
+						<option value="0">Сложно</option>
 					</select>
 				</div>
 				<!-- Кнопка для начала игры -->
-				<button id="reload" class="start-game waves-effect waves-light btn-small">Играть</button>
+				<button id="start" class="start-game waves-effect waves-light btn-small">Играть</button>
 				<!-- Кнопка для рестарта игры -->
 				<button class="restart waves-effect waves-light btn-small">Заново</button>
 				<!-- Кнопка для отображения кораблей противника -->
-				<button id="showEnemy" class="restart waves-effect waves-light btn-small">Читы</button>
+				<button id="cheater" class="restart waves-effect waves-light btn-small">Читы</button>
 				<!-- Блок с выводом таблицы лидеров по очкам -->
 				<div class="scoreboard">
 					<!-- Надпись над сабой таблицей лидеров -->
@@ -71,7 +69,7 @@
 				<!-- Блок для вывода верхних букв над полем боя ПК -->
 				<div class="aroundField letters" id="compLetters"></div>
 				<!-- Блок для создания поля боя компьютера -->
-				<div id="compField">
+				<div id="compField" class="battlefield-grid">
 					<!-- Блок для блокировки кликов по полю боя компьютера во время его хода/игра не начата -->
 					<div class="clickBlockers" id="compFieldBlocker"></div>
 				</div>

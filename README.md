@@ -2,4 +2,4 @@
 Battleship
 
 Попробовать:
-https://haancoock.github.io/battleship/
+https://assemblerBoy.github.io/battleship/
